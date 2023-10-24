@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.zodac</groupId>
+    <artifactId>project-euler</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>[${project.artifactId}] project</name>
+
+    <modules>
+        <module>common-utils</module>
+        <module>solutions</module>
+    </modules>
+
+    <properties>
+        <!-- Project Properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java-release>21</java-release>
+        <maven-release>3.9.4</maven-release>
+
+        <!-- Lint Properties -->
+        <!-- All disabled by default, activated through profiles -->
+        <skip-linters>true</skip-linters>
+
+        <!-- Test Properties -->
+        <!-- All disabled by default, activated through profiles -->
+        <skip-tests>true</skip-tests>
+        <!-- Adding so Maven plugins will not copy/compile test resources -->
+        <maven.test.skip>${skip-tests}</maven.test.skip>
+
+        <!-- Test 3PP Versions -->
+        <assertj-core.version>3.24.2</assertj-core.version>
+        <junit-bom.version>5.10.0</junit-bom.version>
+
+        <!-- Plugin Versions -->
+        <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
+        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <versions-maven-plugin.version>2.16.1</versions-maven-plugin.version>
+
+        <!-- Linter 3PP Versions -->
+        <checkstyle.version>10.12.4</checkstyle.version>
+        <error_prone_core.version>2.22.0</error_prone_core.version>
+        <licenses.version>1</licenses.version>
+        <nullaway.version>0.10.14</nullaway.version>
+        <pitest-junit5-plugin.version>1.2.0</pitest-junit5-plugin.version>
+        <pmd.version>7.0.0-rc4</pmd.version>
+        <spotbugs.version>4.7.3</spotbugs.version>
+
+        <!-- Linter Plugin Versions -->
+        <license-maven-plugin.version>4.3</license-maven-plugin.version>
+        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
+        <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
+        <maven-pmd-plugin.version>3.21.1-pmd-7.0.0-SNAPSHOT</maven-pmd-plugin.version>
+        <pitest-maven.version>1.15.0</pitest-maven.version>
+        <spotbugs-maven-plugin.version>4.7.3.6</spotbugs-maven-plugin.version>
+
+        <!-- Linter Properties -->
+        <!--suppress UnresolvedMavenProperty, files are only used in child modules -->
+        <ci-config-directory>${project.parent.basedir}/ci</ci-config-directory>
+        <checkstyle-file>${ci-config-directory}/checkstyle.xml</checkstyle-file>
+        <license-file>${ci-config-directory}/license-template.txt</license-file>
+        <license-header-definition-file>${ci-config-directory}/license-header-definition.txt</license-header-definition-file>
+        <pmd-ruleset>${ci-config-directory}/pmd-ruleset.xml</pmd-ruleset>
+        <pitest-test-strength-threshold>100</pitest-test-strength-threshold>
+        <spotbugs-include-file>${ci-config-directory}/spotbugs-include-filter-file.xml</spotbugs-include-file>
+        <spotbugs-exclude-file>${ci-config-directory}/spotbugs-exclude-filter-file.xml</spotbugs-exclude-file>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 3PP Dependencies -->
+            <!-- Provides @NonNull/@Nullable compile-time checks for NullAway -->
+            <dependency>
+                <groupId>com.uber.nullaway</groupId>
+                <artifactId>nullaway</artifactId>
+                <version>${nullaway.version}</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <!-- We only want the annotations, we won't be using guava -->
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Test Dependencies -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Plugin run at first phase to define properties for use in later phases -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>timestamp-property</id>
+                            <goals>
+                                <goal>timestamp-property</goal>
+                            </goals>
+                            <configuration>
+                                <name>current-year</name>
+                                <!-- Property config -->
+                                <locale>en_GB</locale>
+                                <pattern>yyyy</pattern>
+                                <timeZone>UTC</timeZone>
+                                <unit>year</unit>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <release>${java-release}</release>
+                        <showWarnings>false</showWarnings>
+
+                        <!-- Configuration for errorprone compiler checks -->
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>com.google.errorprone</groupId>
+                                <artifactId>error_prone_core</artifactId>
+                                <version>${error_prone_core.version}</version>
+                            </path>
+                            <path>
+                                <groupId>com.uber.nullaway</groupId>
+                                <artifactId>nullaway</artifactId>
+                                <version>${nullaway.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <fork>true</fork>
+                        <compilerArgs>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xdoclint:all</arg>
+                            <!-- Configuration for ErrorProne -->
+                            <arg>-XDcompilePolicy=simple</arg>
+                            <arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=${project.groupId}</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
+                        <skipTests>${skip-tests}</skipTests>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions-maven-plugin.version}</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
+
+                <!-- Linters -->
+                <!-- Manual execution: -->
+                <!-- mvn license:check -Dlint -->
+                <!-- To fix missing/invalid licences, run the following in each module: mvn license:format -Dlint -Dyear="2023" -->
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                    <configuration>
+                        <licenseSets>
+                            <licenseSet>
+                                <header>${license-file}</header>
+                                <headerDefinitions>
+                                    <headerDefinition>${license-header-definition-file}</headerDefinition>
+                                </headerDefinitions>
+                                <includes>
+                                    <include>src/main/java/**</include>
+                                    <include>src/test/java/**</include>
+                                </includes>
+                            </licenseSet>
+                        </licenseSets>
+                        <mapping>
+                            <java>JavaPackage</java>
+                        </mapping>
+                        <properties>
+                            <initial-year>2021</initial-year>
+                            <!--suppress UnresolvedMavenProperty, defined by build-helper-maven-plugin -->
+                            <year>${current-year}</year>
+                            <website>zodac.me</website>
+                        </properties>
+                        <skip>${skip-linters}</skip>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.mycila</groupId>
+                            <artifactId>licenses</artifactId>
+                            <version>${licenses.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn checkstyle:checkstyle -Dlint -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven-checkstyle-plugin.version}</version>
+                    <configuration>
+                        <configLocation>${checkstyle-file}</configLocation>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <!--suppress UnresolvedMavenProperty, file is only used in child modules -->
+                        <propertyExpansion>checkstyle.config.path=${ci-config-directory}</propertyExpansion>
+                        <skip>${skip-linters}</skip>
+                        <violationSeverity>info</violationSeverity>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
+                    </executions>
+
+                    <!-- Overwrite the default version of Checkstyle -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn enforcer:enforce -Dlint -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                    <configuration>
+                        <rules>
+                            <banDynamicVersions>
+                                <excludedScopes/>
+                                <ignores>
+                                    <!-- Format: <ignore>groupId[:artifactId[:version[:type[:scope:[classifier]]]]]</ignore> -->
+                                    <!-- Exclude our own JARs optimised by ProGuard -->
+                                    <ignore>me.zodac:folding-stats-*:*:jar:*:optimized</ignore>
+                                </ignores>
+                            </banDynamicVersions>
+                            <bannedDependencies>
+                                <excludes>
+                                    <!-- Ban JUnit4, to not conflict with JUnit5 -->
+                                    <exclude>junit:junit</exclude>
+                                    <exclude>junit:junit-dep</exclude>
+                                </excludes>
+                            </bannedDependencies>
+                            <dependencyConvergence/>
+                            <requireJavaVersion>
+                                <version>[${java-release},)</version>
+                            </requireJavaVersion>
+                            <requireMavenVersion>
+                                <version>[${maven-release},4.0)</version>
+                            </requireMavenVersion>
+                        </rules>
+                        <skip>${skip-linters}</skip>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn javadoc:javadoc -Dlint -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                    <configuration>
+                        <doclint>all</doclint>
+                        <failOnWarnings>true</failOnWarnings>
+                        <quiet>true</quiet>
+                        <serialwarn>true</serialwarn>
+                        <skip>${skip-linters}</skip>
+                        <validateLinks>true</validateLinks>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>javadoc</goal>
+                            </goals>
+                            <phase>install</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn org.pitest:pitest-maven:mutationCoverage -->
+                <plugin>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <version>${pitest-maven.version}</version>
+                    <configuration>
+                        <failWhenNoMutations>false</failWhenNoMutations>
+                        <outputFormats>html</outputFormats>
+                        <skip>${skip-linters}</skip>
+                        <testStrengthThreshold>${pitest-test-strength-threshold}</testStrengthThreshold>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.pitest</groupId>
+                            <artifactId>pitest-junit5-plugin</artifactId>
+                            <version>${pitest-junit5-plugin.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>mutationCoverage</goal>
+                            </goals>
+                            <phase>install</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn pmd:check -Dlint -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${maven-pmd-plugin.version}</version>
+
+                    <!-- Overwrite the default version of PMD -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-core</artifactId>
+                            <version>${pmd.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-java</artifactId>
+                            <version>${pmd.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-javascript</artifactId>
+                            <version>${pmd.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-jsp</artifactId>
+                            <version>${pmd.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <failOnViolation>true</failOnViolation>
+                        <includeTests>false</includeTests>
+                        <linkXRef>false</linkXRef>
+                        <printFailingErrors>true</printFailingErrors>
+                        <rulesets>
+                            <ruleset>${pmd-ruleset}</ruleset>
+                        </rulesets>
+                        <skip>${skip-linters}</skip>
+                        <targetJdk>${java-release}</targetJdk>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>install</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Manual execution: -->
+                <!-- mvn spotbugs:spotbugs -Dlint -->
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs-maven-plugin.version}</version>
+                    <configuration>
+                        <effort>max</effort>
+                        <includeFilterFile>${spotbugs-include-file}</includeFilterFile>
+                        <excludeFilterFile>${spotbugs-exclude-file}</excludeFilterFile>
+                        <skip>${skip-linters}</skip>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>install</phase>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <!-- Overwrite the default version of Spotbugs -->
+                        <dependency>
+                            <groupId>com.github.spotbugs</groupId>
+                            <artifactId>spotbugs</artifactId>
+                            <version>${spotbugs.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!-- Run to create properties for other plugins -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- TODO: Only added to download SNAPSHOT version of PMD plugin, remove when PMD7 is supported on main branch -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshot Repository</name>
+            <url>https://repository.apache.org/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <profiles>
+        <!-- Profile to run both tests and lints -->
+        <profile>
+            <id>activate_all</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <properties>
+                <skip-linters>false</skip-linters>
+                <skip-tests>false</skip-tests>
+            </properties>
+        </profile>
+
+        <!-- Profile used to execute each module's lints (if any) -->
+        <profile>
+            <id>activate_lints</id>
+            <activation>
+                <property>
+                    <name>lint</name>
+                </property>
+            </activation>
+            <properties>
+                <skip-linters>false</skip-linters>
+            </properties>
+        </profile>
+
+        <!-- Profile used to execute each module's tests (if any) -->
+        <profile>
+            <id>activate_tests</id>
+            <activation>
+                <property>
+                    <name>tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skip-tests>false</skip-tests>
+            </properties>
+        </profile>
+    </profiles>
+</project>
