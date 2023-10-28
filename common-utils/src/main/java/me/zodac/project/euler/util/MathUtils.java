@@ -15,7 +15,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.zodac.project.euler;
+package me.zodac.project.euler.util;
 
 /**
  * Utility class with {@link Math}-based functions.
@@ -39,5 +39,26 @@ public final class MathUtils {
         } catch (final ArithmeticException e) {
             return false;
         }
+    }
+
+    /**
+     * Checks if the input {@code long} is even.
+     *
+     * @param value the {@code long} to check
+     * @return {@code true} if the {@code long} is even
+     */
+    public static boolean isEven(final long value) {
+        return value % 2 == 0;
+    }
+
+    /**
+     * Checks if the input {@code long} is odd.
+     *
+     * @param value the {@code long} to check
+     * @return {@code true} if the {@code long} is odd
+     * @see #isEven(long)
+     */
+    public static boolean isOdd(final long value) {
+        return !isEven(value);
     }
 }

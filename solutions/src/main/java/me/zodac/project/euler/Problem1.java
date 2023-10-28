@@ -19,9 +19,10 @@ package me.zodac.project.euler;
 
 import java.util.Set;
 import java.util.stream.IntStream;
+import me.zodac.project.euler.util.MathUtils;
 
 /**
- * Solution for Problem 1.
+ * Solution for Problem 1: {@code Multiples of 3 or 5}.
  *
  * @see <a href="https://projecteuler.net/problem=1">Project Euler, Problem 1</a>
  */

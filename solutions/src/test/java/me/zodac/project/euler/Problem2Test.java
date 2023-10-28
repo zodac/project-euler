@@ -19,27 +19,25 @@ package me.zodac.project.euler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link MathUtils}.
+ * Solutions for {@link Problem2}.
  */
-class MathUtilsTest {
+class Problem2Test {
 
-    @ParameterizedTest
-    @CsvSource({
-        "10,5,true",
-        "-10,5,true",
-        "10,-5,true",
-        "-10,-5,true",
-        "10,4,false",
-        "10,-4,false",
-        "10,0,false",
-    })
-    void testIsDivisibleBy(final int input, final int divisor, final boolean expected) {
-        final boolean output = MathUtils.isDivisibleBy(input, divisor);
+    @Test
+    void example() {
+        // Greatest value in first 10 terms is 89
+        final long output = Problem2.sumEvenFibonacciValues(90);
         assertThat(output)
-            .isEqualTo(expected);
+            .isEqualTo(44L);
+    }
+
+    @Test
+    void problem() {
+        final long output = Problem2.sumEvenFibonacciValues(4_000_000);
+        assertThat(output)
+            .isEqualTo(4_613_732L);
     }
 }
