@@ -33,7 +33,7 @@ public final class MathUtils {
      * @param divisor the divisor
      * @return {@code true} if the {@code input} is divisible by the given {@code divisor}
      */
-    public static boolean isDivisibleBy(final int input, final int divisor) {
+    public static boolean isDivisibleBy(final long input, final long divisor) {
         try {
             return input % divisor == 0;
         } catch (final ArithmeticException e) {
@@ -48,7 +48,7 @@ public final class MathUtils {
      * @return {@code true} if the {@code long} is even
      */
     public static boolean isEven(final long value) {
-        return value % 2 == 0;
+        return isDivisibleBy(value, 2L);
     }
 
     /**

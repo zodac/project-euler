@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
- * Basic utility class used to calculate the terms in a Fibonnaci Sequence.
+ * Utility class used to calculate the terms in a Fibonnaci Sequence.
  *
  * <p>
  * There are no limits for any of the methods in this class, so use with care. {@link Integer} and {@link Long} overflows are possible.

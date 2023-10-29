@@ -17,31 +17,28 @@
 
 package me.zodac.project.euler;
 
-import me.zodac.project.euler.util.MathUtils;
-
 /**
- * Solution for Problem 2: {@code Even Fibonacci Numbers}.
+ * Solution for Problem 3: {@code Largest Prime Factor}.
  *
- * @see <a href="https://projecteuler.net/problem=2">Project Euler, Problem 2</a>
+ * @see <a href="https://projecteuler.net/problem=3">Project Euler, Problem 2</a>
  */
-public final class Problem2 {
+public final class Problem3 {
 
-    private Problem2() {
+    private Problem3() {
 
     }
 
     /**
-     * Retrieves all Fibonnaci values less than the {@code maxFibonacciValue}, then sums all even values.
+     * Determines the prime factors of the input value, then returns the largest factor.
      *
-     * @param maxFibonacciValue the maximum value for the Fibonacci sequence to count to
-     * @return the sum of all even Fibonacci values less than {@code maxFibonacciValue}
-     * @see FibonacciSequencer#untilMaxValue(int)
-     * @see MathUtils#isEven(long)
+     * @param input the value whose prime factors are to be found
+     * @return the largest prime factor
+     * @see PrimeFactoriser#primeFactors(long)
      */
-    public static long sumEvenFibonacciValues(final int maxFibonacciValue) {
-        return FibonacciSequencer.untilMaxValue(maxFibonacciValue)
-            .filter(MathUtils::isEven)
+    public static long largestPrimeFactor(final long input) {
+        return PrimeFactoriser.primeFactors(input)
             .mapToLong(Long::longValue)
-            .sum();
+            .max()
+            .orElse(0L);
     }
 }
