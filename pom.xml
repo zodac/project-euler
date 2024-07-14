@@ -18,8 +18,8 @@
     <properties>
         <!-- Project Properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java-release>21</java-release>
-        <maven-release>3.9.4</maven-release>
+        <java-release>22</java-release>
+        <maven-release>3.9.8</maven-release>
 
         <!-- Lint Properties -->
         <!-- All disabled by default, activated through profiles -->
@@ -32,35 +32,35 @@
         <maven.test.skip>${skip-tests}</maven.test.skip>
 
         <!-- Test 3PP Versions -->
-        <assertj-core.version>3.24.2</assertj-core.version>
-        <junit-bom.version>5.10.0</junit-bom.version>
+        <assertj-core.version>3.26.3</assertj-core.version>
+        <junit-bom.version>5.10.3</junit-bom.version>
 
         <!-- Plugin Versions -->
-        <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
-        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
-        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <versions-maven-plugin.version>2.16.1</versions-maven-plugin.version>
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <maven-install-plugin.version>3.1.2</maven-install-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
+        <versions-maven-plugin.version>2.17.0</versions-maven-plugin.version>
 
         <!-- Linter 3PP Versions -->
-        <checkstyle.version>10.12.4</checkstyle.version>
-        <error_prone_core.version>2.22.0</error_prone_core.version>
+        <checkstyle.version>10.17.0</checkstyle.version>
+        <error_prone_core.version>2.28.0</error_prone_core.version>
         <licenses.version>1</licenses.version>
-        <nullaway.version>0.10.14</nullaway.version>
-        <pitest-junit5-plugin.version>1.2.0</pitest-junit5-plugin.version>
-        <pmd.version>7.0.0-rc4</pmd.version>
-        <spotbugs.version>4.7.3</spotbugs.version>
+        <nullaway.version>0.11.0</nullaway.version>
+        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <pmd.version>7.3.0</pmd.version>
+        <spotbugs.version>4.8.6</spotbugs.version>
 
         <!-- Linter Plugin Versions -->
-        <license-maven-plugin.version>4.3</license-maven-plugin.version>
-        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
-        <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
-        <maven-pmd-plugin.version>3.21.1-pmd-7.0.0-SNAPSHOT</maven-pmd-plugin.version>
-        <pitest-maven.version>1.15.0</pitest-maven.version>
-        <spotbugs-maven-plugin.version>4.7.3.6</spotbugs-maven-plugin.version>
+        <license-maven-plugin.version>4.5</license-maven-plugin.version>
+        <maven-checkstyle-plugin.version>3.4.0</maven-checkstyle-plugin.version>
+        <maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
+        <maven-pmd-plugin.version>3.24.0</maven-pmd-plugin.version>
+        <pitest-maven.version>1.16.1</pitest-maven.version>
+        <spotbugs-maven-plugin.version>4.8.6.2</spotbugs-maven-plugin.version>
 
         <!-- Linter Properties -->
         <!--suppress UnresolvedMavenProperty, files are only used in child modules -->
@@ -208,7 +208,19 @@
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions-maven-plugin.version}</version>
                     <configuration>
+                        <!-- List of dependencies to not be updated, due to incompatible versions -->
+                        <!-- If a valid update becomes available, it can be updated and removed from below -->
+                        <excludes/>
                         <generateBackupPoms>false</generateBackupPoms>
+                        <ruleSet>
+                            <ignoreVersions>
+                                <!-- Exclude alpha, beta, milestone and SNAPSHOT releases -->
+                                <ignoreVersion>
+                                    <type>regex</type>
+                                    <version>.*(-alpha|-beta|-M\d|-SNAPSHOT).*</version>
+                                </ignoreVersion>
+                            </ignoreVersions>
+                        </ruleSet>
                     </configuration>
                 </plugin>
 
@@ -481,21 +493,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- TODO: Only added to download SNAPSHOT version of PMD plugin, remove when PMD7 is supported on main branch -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>https://repository.apache.org/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <profiles>
         <!-- Profile to run both tests and lints -->
