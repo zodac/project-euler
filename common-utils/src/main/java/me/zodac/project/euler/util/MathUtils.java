@@ -36,7 +36,7 @@ public final class MathUtils {
     public static boolean isDivisibleBy(final long input, final long divisor) {
         try {
             return input % divisor == 0;
-        } catch (final ArithmeticException e) {
+        } catch (final ArithmeticException ignored) {
             return false;
         }
     }

@@ -39,7 +39,7 @@ public final class Problem4 {
      * @return the palindrome product
      */
     public static long largestPalindromeProductWithNumbersOfSize(final long numberOfDigits) {
-        final int start = ((Double) StrictMath.pow(BASE_TEN_VALUE, numberOfDigits - 1)).intValue();
+        final int start = ((Double) StrictMath.pow(BASE_TEN_VALUE, numberOfDigits - 1.0D)).intValue();
         final int end = ((Double) StrictMath.pow(BASE_TEN_VALUE, numberOfDigits)).intValue();
 
         int max = start;
