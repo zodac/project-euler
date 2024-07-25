@@ -1,6 +1,13 @@
 name: Java CI
 
-on: [ push ]
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '.github/workflows/doc.yml'
+      - 'ci/doc/**'
+      - 'LICENSE'
+      - 'README.md'
 
 jobs:
   build:
