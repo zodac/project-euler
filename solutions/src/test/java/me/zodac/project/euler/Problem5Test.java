@@ -17,28 +17,26 @@
 
 package me.zodac.project.euler;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+
 /**
- * Solution for Problem 3: {@code Largest Prime Factor}.
- *
- * @see <a href="https://projecteuler.net/problem=3">Project Euler, Problem 3</a>
+ * Solutions for {@link Problem5}.
  */
-public final class Problem3 {
+class Problem5Test {
 
-    private Problem3() {
-
+    @Test
+    void example() {
+        final long output = Problem5.smallestCommonMultiple(1, 10);
+        assertThat(output)
+            .isEqualTo(2_520L);
     }
 
-    /**
-     * Determines the prime factors of the input value, then returns the largest factor.
-     *
-     * @param input the value whose prime factors are to be found
-     * @return the largest prime factor
-     * @see PrimeFactoriser#primeFactors(long)
-     */
-    public static long largestPrimeFactor(final long input) {
-        return PrimeFactoriser.primeFactors(input)
-            .mapToLong(Long::longValue)
-            .max()
-            .orElse(0L);
+    @Test
+    void problem() {
+        final long output = Problem5.smallestCommonMultiple(1, 20);
+        assertThat(output)
+            .isEqualTo(232_792_560L);
     }
 }

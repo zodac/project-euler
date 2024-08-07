@@ -17,6 +17,8 @@
 
 package me.zodac.project.euler.util;
 
+import java.util.Collection;
+
 /**
  * Utility class with {@link Math}-based functions.
  */
@@ -24,6 +26,27 @@ public final class MathUtils {
 
     private MathUtils() {
 
+    }
+
+    /**
+     * Calculates the Greatest Common Divisor (also known as the Highest Common Factor) of the provided {@code long}s.
+     *
+     * @param first  the first {@code long}, so at least one value is provided
+     * @param others the {@code long}s to check
+     * @return the GCD of the provided {@code long}s
+     * @see <a href="https://en.wikipedia.org/wiki/Greatest_common_divisor">Greatest Common Divisor</a>
+     */
+    public static long greatestCommonDivisor(final long first, final long... others) {
+        long gcd = first;
+        for (final long input : others) {
+            gcd = gcd(gcd, input);
+        }
+
+        return gcd;
+    }
+
+    private static long gcd(final long x, final long y) {
+        return (y == 0) ? x : gcd(y, x % y);
     }
 
     /**
@@ -60,5 +83,35 @@ public final class MathUtils {
      */
     public static boolean isOdd(final long value) {
         return !isEven(value);
+    }
+
+    /**
+     * Calculates the Lowest Common Multiple (also known as Least Common Multiple) of the provided {@link Long}s.
+     *
+     * @param inputs the {@link Long}s to check
+     * @return the LCM of the provided {@link Long}s
+     * @throws IllegalArgumentException thrown if the input {@link Collection#isEmpty()}
+     * @see <a href="https://en.wikipedia.org/wiki/Least_common_multiple">Lower Common Multiple</a>
+     */
+    public static long lowestCommonMultiple(final Collection<Long> inputs) {
+        if (inputs.isEmpty()) {
+            throw new IllegalArgumentException("Input cannot be empty");
+        }
+
+        long lcm = 1;
+        for (final long input : inputs) {
+            lcm = lcm(lcm, input);
+        }
+
+        return lcm;
+    }
+
+    private static long lcm(final long number1, final long number2) {
+        if (number1 == 0 || number2 == 0) {
+            return 0;
+        }
+
+        final long gcd = greatestCommonDivisor(number1, number2);
+        return Math.abs(number1 * number2) / gcd;
     }
 }

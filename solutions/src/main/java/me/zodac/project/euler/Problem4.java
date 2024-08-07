@@ -20,9 +20,9 @@ package me.zodac.project.euler;
 import me.zodac.project.euler.util.StringUtils;
 
 /**
- * Solution for Problem 3: {@code Largest Prime Factor}.
+ * Solution for Problem 4: {@code Largest Palindrome Product}.
  *
- * @see <a href="https://projecteuler.net/problem=3">Project Euler, Problem 2</a>
+ * @see <a href="https://projecteuler.net/problem=4">Project Euler, Problem 4</a>
  */
 public final class Problem4 {
 
