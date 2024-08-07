@@ -41,6 +41,7 @@ class PrimeFactoriserTest {
 
     private static Stream<Arguments> provideForPrimeFactors() {
         return Stream.of(
+            Arguments.of(1L, Set.of()),
             Arguments.of(2L, Set.of(2L)),
             Arguments.of(3L, Set.of(3L)),
             Arguments.of(7L, Set.of(7L)),
