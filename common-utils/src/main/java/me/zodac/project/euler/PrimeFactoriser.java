@@ -54,7 +54,7 @@ public final class PrimeFactoriser {
 
         // Because we will be dividing by the facors, we only need to check for primes until the square root of the value
         final double end = Math.sqrt(value);
-        for (long l = FIRST_ODD_PRIME_NUMBER; Double.compare(l, end) < 1; l += 2) {
+        for (long l = FIRST_ODD_PRIME_NUMBER; Double.compare(l, end) < 1; l += FIRST_EVEN_PRIME_NUMBER) {
             // Iterate until a factor is found, then divide input
             while (MathUtils.isDivisibleBy(value, l)) {
                 primeFactors.add(l);

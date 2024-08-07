@@ -18,6 +18,7 @@
 package me.zodac.project.euler;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.LongStream;
 import me.zodac.project.euler.util.MathUtils;
 
@@ -33,14 +34,15 @@ public final class Problem5 {
     }
 
     /**
-     * Find the smallest positive number that is evenly divisble by the range of {@link Long}s.
+     * Find the smallest positive number that is evenly divisble by the {@link Long} range defined by {@code start} and {@code end}.
      *
-     * @param start the start of the range of {@link Long}s for which to find the smallest multiple (inclusive)
-     * @param end   the end of the range of {@link Long}s for which to find the smallest multiple (inclusive)
+     * @param start the start of the range of {@link Long}s (inclusive)
+     * @param end   the end of the range of {@link Long}s (inclusive)
      * @return the smallest common multiple
      * @see MathUtils#lowestCommonMultiple(Collection)
      */
     public static long smallestCommonMultiple(final long start, final long end) {
-        return MathUtils.lowestCommonMultiple(LongStream.range(start, end + 1).boxed().toList());
+        final List<Long> range = LongStream.range(start, end + 1).boxed().toList();
+        return MathUtils.lowestCommonMultiple(range);
     }
 }
