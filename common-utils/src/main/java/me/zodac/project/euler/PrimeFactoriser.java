@@ -63,7 +63,7 @@ public final class PrimeFactoriser {
         }
 
         // Finally, value is a prime number greater than 2
-        if (MathUtils.isOdd(value) && value != INVALID_PRIME_NUMBER) {
+        if (value != INVALID_PRIME_NUMBER) {
             primeFactors.add(value);
         }
 
