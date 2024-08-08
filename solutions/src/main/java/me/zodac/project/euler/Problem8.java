@@ -38,10 +38,11 @@ public final class Problem8 {
      * @return the largest product
      */
     public static long findGreatestProductOfAdjacentDigits(final List<Long> input, final int windowSize) {
-        long max = Long.MIN_VALUE;
         final int startIndex = windowSize - 1;
+        final int size = input.size();
 
-        for (int i = startIndex; i < input.size(); i++) {
+        long max = Long.MIN_VALUE;
+        for (int i = startIndex; i < size; i++) {
             final int startOfWindow = i - windowSize + 1;
             final int endOfWindow = i + 1;
 
