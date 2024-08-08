@@ -17,10 +17,22 @@
 
 package me.zodac.project.euler.util;
 
+import java.util.regex.Pattern;
+
 /**
  * Utility class with {@link String}-based functions.
  */
 public final class StringUtils {
+
+    /**
+     * {@link Pattern} to find new lines.
+     */
+    public static final Pattern NEW_LINE_PATTERN = Pattern.compile("\\r?\\n");
+
+    /**
+     * {@link Pattern} to find whitespaces (of any length).
+     */
+    public static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
 
     private StringUtils() {
 
