@@ -20,6 +20,8 @@ package me.zodac.project.euler;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -30,6 +32,25 @@ import org.junit.jupiter.params.provider.ValueSource;
 class PrimeNumberFinderTest {
 
     private final PrimeNumberFinder primeNumberFinder = PrimeNumberFinder.create();
+
+    @Test
+    void testAllPrimes() {
+        final List<Long> output = primeNumberFinder.allPrimes().boxed().toList();
+        assertThat(output)
+            .hasSize(78_498);
+
+        final long sumOutput = primeNumberFinder.allPrimes().sum();
+        assertThat(sumOutput)
+            .isEqualTo(37_550_402_023L);
+    }
+
+    @Test
+    void testAllPrimes_invalid() {
+        final PrimeNumberFinder invalidPrimeNumberFinder = PrimeNumberFinder.create(1);
+        final List<Long> output = invalidPrimeNumberFinder.allPrimes().boxed().toList();
+        assertThat(output)
+            .isEmpty();
+    }
 
     @ParameterizedTest
     @CsvSource({

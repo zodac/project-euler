@@ -20,6 +20,7 @@ package me.zodac.project.euler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.LongStream;
 
 /**
  * Utility class to find prime numbers by index. The constructor will use the {@code Sieve of Eratosthenes} algorithm to determine all prime numbers
@@ -57,6 +58,15 @@ public final class PrimeNumberFinder {
      */
     public static PrimeNumberFinder create() {
         return create(DEFAULT_MAX_PRIME_NUMBER_VALUE);
+    }
+
+    /**
+     * Returns the calculated prime numbers.
+     *
+     * @return the prime numbers as a {@link LongStream}
+     */
+    public LongStream allPrimes() {
+        return primes.stream().mapToLong(l -> l);
     }
 
     /**
