@@ -16,7 +16,7 @@
     <properties>
         <!-- JaCoCo Configuration -->
         <line-coverage>0.90</line-coverage>
-        <branch-coverage>0.85</branch-coverage>
+        <branch-coverage>0.90</branch-coverage>
     </properties>
 
     <dependencies>

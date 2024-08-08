@@ -20,9 +20,9 @@ package me.zodac.project.euler;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Unit tests for {@link PrimeNumberFinder}.
@@ -48,17 +48,11 @@ class PrimeNumberFinderTest {
             .isEqualTo(expectedPrimeNumber);
     }
 
-    @Test
-    void testFind_givenInvalidIndex() {
-        assertThatThrownBy(() -> primeNumberFinder.find(78_499))
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0, 78_499})
+    void testFind_givenInvalidInputsIndex(final int input) {
+        assertThatThrownBy(() -> primeNumberFinder.find(input))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("The index must be between 1 and 78498, found: 78499");
-    }
-
-    @Test
-    void testFind_givenNegativeIndex() {
-        assertThatThrownBy(() -> primeNumberFinder.find(-1))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("The index must be between 1 and 78498, found: -1");
+            .hasMessageContaining("The index must be between 1 and 78498, found: " + input);
     }
 }

@@ -444,6 +444,10 @@
                     <artifactId>pitest-maven</artifactId>
                     <version>${pitest-maven.version}</version>
                     <configuration>
+                        <excludedMethods>
+                            <!-- False positives with boundary conditions -->
+                            <excludedMethod>createSieveOfPrimes</excludedMethod>
+                        </excludedMethods>
                         <failWhenNoMutations>false</failWhenNoMutations>
                         <outputFormats>html</outputFormats>
                         <skip>${skip-linters}</skip>

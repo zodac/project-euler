@@ -18,6 +18,7 @@
 package me.zodac.project.euler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,12 +40,23 @@ public final class PrimeNumberFinder {
 
     /**
      * Creates an instance of {@link PrimeNumberFinder}, where the maximum value of a prime number must be less
+     * than {@code maxNumber}.
+     *
+     * @param maxNumber the maximum allow value for a prime number
+     * @return the {@link PrimeNumberFinder} instance
+     */
+    public static PrimeNumberFinder create(final int maxNumber) {
+        return new PrimeNumberFinder(maxNumber);
+    }
+
+    /**
+     * Creates an instance of {@link PrimeNumberFinder}, where the maximum value of a prime number must be less
      * than {@value #DEFAULT_MAX_PRIME_NUMBER_VALUE}.
      *
      * @return the {@link PrimeNumberFinder} instance
      */
     public static PrimeNumberFinder create() {
-        return new PrimeNumberFinder(DEFAULT_MAX_PRIME_NUMBER_VALUE);
+        return create(DEFAULT_MAX_PRIME_NUMBER_VALUE);
     }
 
     /**
@@ -64,12 +76,9 @@ public final class PrimeNumberFinder {
 
     private void createSieveOfPrimes(final int maxValueOfPrimeNumber) {
         final boolean[] numberIsPrime = new boolean[maxValueOfPrimeNumber + 1];
+        Arrays.fill(numberIsPrime, true);
 
-        for (int i = FIRST_PRIME_NUMBER; i <= maxValueOfPrimeNumber; i++) {
-            numberIsPrime[i] = true;
-        }
-
-        for (int p = FIRST_PRIME_NUMBER; p * p <= maxValueOfPrimeNumber; p++) {
+        for (int p = FIRST_PRIME_NUMBER; p * p < maxValueOfPrimeNumber; p++) {
             if (numberIsPrime[p]) {
                 for (int i = p * p; i <= maxValueOfPrimeNumber; i += p) {
                     numberIsPrime[i] = false;
