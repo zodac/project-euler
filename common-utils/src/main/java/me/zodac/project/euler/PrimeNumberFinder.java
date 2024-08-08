@@ -54,31 +54,31 @@ public final class PrimeNumberFinder {
      * @return the {@code nth} prime number
      */
     public long find(final int indexOfPrimeToFind) {
-        final int zeroIndexedIndex = indexOfPrimeToFind - 1;
         if (indexOfPrimeToFind <= 0 || indexOfPrimeToFind > primes.size()) {
             throw new IllegalArgumentException(String.format("The index must be between 1 and %s, found: %s", primes.size(), indexOfPrimeToFind));
         }
 
+        final int zeroIndexedIndex = indexOfPrimeToFind - 1;
         return primes.get(zeroIndexedIndex);
     }
 
     private void createSieveOfPrimes(final int maxValueOfPrimeNumber) {
-        final boolean[] isPrime = new boolean[maxValueOfPrimeNumber + 1];
+        final boolean[] numberIsPrime = new boolean[maxValueOfPrimeNumber + 1];
 
         for (int i = FIRST_PRIME_NUMBER; i <= maxValueOfPrimeNumber; i++) {
-            isPrime[i] = true;
+            numberIsPrime[i] = true;
         }
 
         for (int p = FIRST_PRIME_NUMBER; p * p <= maxValueOfPrimeNumber; p++) {
-            if (isPrime[p]) {
+            if (numberIsPrime[p]) {
                 for (int i = p * p; i <= maxValueOfPrimeNumber; i += p) {
-                    isPrime[i] = false;
+                    numberIsPrime[i] = false;
                 }
             }
         }
 
         for (int i = FIRST_PRIME_NUMBER; i <= maxValueOfPrimeNumber; i++) {
-            if (isPrime[i]) {
+            if (numberIsPrime[i]) {
                 primes.add((long) i);
             }
         }
