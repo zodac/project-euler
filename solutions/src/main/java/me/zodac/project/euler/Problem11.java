@@ -67,7 +67,9 @@ public final class Problem11 {
             }
             return total;
         } catch (final ArrayIndexOutOfBoundsException ignored) {
-            return Long.MIN_VALUE; // Return lowest possible value, best practice since we're looking for a max value (technicall could be negative)
+            // I'm being lazy here, not bothering to check the boundaries of the grid. If we exceed the grid, that sequence is not valid,
+            // so we return lowest possible value, best practice since we're looking for a max value (which technically could be negative).
+            return Long.MIN_VALUE;
         }
     }
 

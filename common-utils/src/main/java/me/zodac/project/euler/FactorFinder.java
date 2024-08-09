@@ -19,20 +19,37 @@ package me.zodac.project.euler;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 import me.zodac.project.euler.util.MathUtils;
 
 /**
- * Utility class which finds the prime factors of a value.
+ * Utility class which finds the factors of a {@code long}.
  */
-public final class PrimeFactoriser {
+public final class FactorFinder {
 
     private static final long INVALID_PRIME_NUMBER = 1L;
     private static final long FIRST_EVEN_PRIME_NUMBER = 2L;
     private static final long FIRST_ODD_PRIME_NUMBER = 3L;
 
-    private PrimeFactoriser() {
+    private FactorFinder() {
 
+    }
+
+    /**
+     * Determines the factors for the provided {@code input}.
+     *
+     * @param input the number whose factors to find
+     * @return the factors
+     */
+    public static Stream<Long> factors(final long input) {
+        final Collection<Long> factors = new HashSet<>();
+        for (int i = 1; i <= input; i++) {
+            if (input % i == 0) {
+                factors.add((long) i);
+            }
+        }
+        return factors.stream();
     }
 
     /**

@@ -22,19 +22,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+import org.checkerframework.nullaway.com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Unit tests for {@link PrimeFactoriser}.
+ * Unit tests for {@link FactorFinder}.
  */
-class PrimeFactoriserTest {
+class FactorFinderTest {
+
+    @ParameterizedTest
+    @MethodSource("provideForFactors")
+    void testFactors(final long input, final Set<Long> expected) {
+        final List<Long> output = FactorFinder.factors(input).toList();
+        assertThat(output)
+            .hasSameElementsAs(expected);
+    }
+
+    private static Stream<Arguments> provideForFactors() {
+        return Stream.of(
+            Arguments.of(0L, Set.of()),
+            Arguments.of(1L, Set.of(1L)),
+            Arguments.of(20L, Set.of(1L, 2L, 4L, 5L, 10L, 20L)),
+            Arguments.of(24L, Set.of(1L, 2L, 3L, 4L, 6L, 8L, 12L, 24L)),
+            Arguments.of(97L, Set.of(1L, 97L)),
+            Arguments.of(99L, Set.of(1L, 3L, 9L, 11L, 33L, 99L)),
+            Arguments.of(100L, Set.of(1L, 2L, 4L, 5L, 10L, 20L, 25L, 50L, 100L))
+        );
+    }
 
     @ParameterizedTest
     @MethodSource("provideForPrimeFactors")
     void testPrimeFactors(final long input, final Set<Long> expected) {
-        final List<Long> output = PrimeFactoriser.primeFactors(input).toList();
+        final List<Long> output = FactorFinder.primeFactors(input).toList();
         assertThat(output)
             .hasSameElementsAs(expected);
     }
