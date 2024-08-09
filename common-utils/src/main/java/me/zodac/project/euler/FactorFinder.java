@@ -19,7 +19,6 @@ package me.zodac.project.euler;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Stream;
 import me.zodac.project.euler.util.MathUtils;
 
