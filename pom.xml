@@ -150,7 +150,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -380,11 +379,6 @@
                         <rules>
                             <banDynamicVersions>
                                 <excludedScopes/>
-                                <ignores>
-                                    <!-- Format: <ignore>groupId[:artifactId[:version[:type[:scope:[classifier]]]]]</ignore> -->
-                                    <!-- Exclude our own JARs optimised by ProGuard -->
-                                    <ignore>me.zodac:folding-stats-*:*:jar:*:optimized</ignore>
-                                </ignores>
                             </banDynamicVersions>
                             <bannedDependencies>
                                 <excludes>
