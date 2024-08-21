@@ -56,6 +56,7 @@ jobs:
         if: steps.application_tests.outcome == 'success'
         run: |
           git config user.name github-actions
+          git config user.email "actions@github.com"
           git add .
           git commit -m 'Updating versions'
 
