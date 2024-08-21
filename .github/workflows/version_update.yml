@@ -55,7 +55,7 @@ jobs:
       - name: Commit and push changes
         if: steps.application_tests.outcome == 'success'
         run: |
-          git config --global user.name 'zodac_automation'
+          git config --global user.name 'zodac'
           git config --global user.email 'actions@github.com'
           git add .
           git commit -m 'Updating versions'
