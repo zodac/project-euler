@@ -52,10 +52,15 @@ jobs:
         id: application_tests
         run: mvn clean install -Dall
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: steps.application_tests.outcome == 'success'
         run: |
           git config user.name github-actions
           git add .
           git commit -m 'Updating versions'
-          git push
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
