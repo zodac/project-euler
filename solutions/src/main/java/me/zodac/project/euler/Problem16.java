@@ -43,7 +43,8 @@ public final class Problem16 {
         final String resultAsString = String.valueOf(result);
 
         long total = 0L;
-        for (int i = 0; i < resultAsString.length(); i++) {
+        final int numberOfResults = resultAsString.length();
+        for (int i = 0; i < numberOfResults; i++) {
             total += Character.digit(resultAsString.charAt(i), 10);
         }
 
