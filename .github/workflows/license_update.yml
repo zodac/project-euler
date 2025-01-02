@@ -1,6 +1,10 @@
 name: License Year Update
 
 on:
+  push:
+    branches: [ master ]
+    paths:
+      - '.github/workflows/license_update.yml'
   schedule:
     - cron: '30 0 1 1 *'
 
