@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/license_update.yml'
   schedule:
+    # Run at 00:30 on the first of January every year
     - cron: '30 0 1 1 *'
 
 jobs:
