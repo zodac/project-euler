@@ -52,7 +52,7 @@ jobs:
           PREVIOUS_YEAR=$((CURRENT_YEAR - 1))
           
           # Normalise line-endings
-          find . -type f -not -path './.git/*' -exec dos2unix {} +
+          find . -type f -not -path './.git/*' -exec sed -i 's/\r$//' {} +
           # Find and replace '<free text> 2021-<previous_year>' with '<free text> 2021-<current_year>'
           find . -type f -not -path './.git/*' -exec sed -i "s/\(2021-\)\(${PREVIOUS_YEAR}\)/\1${CURRENT_YEAR}/g" {} +
           
