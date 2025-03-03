@@ -9,4 +9,4 @@ The solutions are written in Java.
 
 The problems are broken into chunks of 100 problems each. Below are the results.
 
-### ![1-100](https://us-central1-progress-markdown.cloudfunctions.net/progress/17) 1-100
+### ![1-100](https://us-central1-progress-markdown.cloudfunctions.net/progress/18) 1-100
