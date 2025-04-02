@@ -53,7 +53,7 @@ public final class Problem15 {
 
         // Calculate C(n, k) = n! / (k! * (n-k)!)
         for (int i = 1; i <= k; i++) {
-            numerator = numerator.multiply(BigInteger.valueOf(n - i + 1));
+            numerator = numerator.multiply(BigInteger.valueOf(n - i + 1L));
             denominator = denominator.multiply(BigInteger.valueOf(i));
         }
 

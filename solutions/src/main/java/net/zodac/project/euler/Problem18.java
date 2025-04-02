@@ -39,9 +39,10 @@ public final class Problem18 {
      * @return the maximum path
      */
     public static long calculateMaxPathOfTriangle(final List<String> inputRows) {
-        final long[][] rows = new long[inputRows.size()][];
+        final int size = inputRows.size();
+        final long[][] rows = new long[size][];
 
-        for (int i = 0; i < inputRows.size(); i++) {
+        for (int i = 0; i < size; i++) {
             final String[] numbers = StringUtils.WHITESPACE_PATTERN.split(inputRows.get(i));
 
             rows[i] = new long[numbers.length];
